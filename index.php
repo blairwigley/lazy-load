@@ -10,11 +10,15 @@ defined('ABSPATH') or die("..");
     */
 
 
-// add lazyload to images
+if ( strpos($_SERVER['REQUEST_URI'], 'wp-admin') === false ) {
+        add_action('template_redirect','ob_start_lazy_load');    
+}
 
-add_filter('the_content', 'lazyload_change', 12);
 
-add_filter('get_comment_text', 'lazyload_change');
+function ob_start_lazy_load() {
+    ob_start('lazyload_change');
+}
+
 
 function lazyload_change ($content)
 {   
